@@ -190,7 +190,7 @@ def create_database():
 def isHidden(directory):
     return directory[0] == '.'
 
-def process_dir(arg,directory,names):
+def process_dir(directory,names):
    series = os.path.split(directory)
    if isHidden(series[1]):
        return
@@ -239,13 +239,13 @@ def create_metadata(series,episode,name,directory):
 
 
 def main():
-    #DIR = "/Users/jeffery.smith/Movies"
-    DIR="/Users/jeff/Movies/Tivo/tv"
-    directories = os.listdir(DIR)
-    for directory in directories:
-        if not directory[0] == ".":
-            directory = os.path.join(DIR,directory)
-            os.path.walk(directory,process_dir,None)
+    DIR = "/Users/jeffery.smith/Movies"
+    #DIR="/Users/jeff/Movies/Tivo/tv"
+    for root, subdir, files in os.walk(DIR):
+        if root == DIR:
+            continue
+        if not isHidden(root):
+            process_dir(root,files)
 
 if  __name__ == '__main__':
     main()
